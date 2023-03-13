@@ -11,5 +11,11 @@
   "bugs": {
     "url": "https://github.com/leon-carvalho/floema-clone/issues"
   },
-  "homepage": "https://github.com/leon-carvalho/floema-clone#readme"
+  "homepage": "https://github.com/leon-carvalho/floema-clone#readme",
+  "devDependencies": {
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1",
+    "webpack-merge": "^5.8.0"
+  }
 }
