@@ -12,6 +12,11 @@
     "url": "https://github.com/leon-carvalho/floema-clone/issues"
   },
   "homepage": "https://github.com/leon-carvalho/floema-clone#readme",
+  "scripts": {
+    "start": "npm run dev",
+	  "dev": "webpack-dev-server --progress --config webpack.config.development.js",
+	  "build": "webpack -p --progress --config webpack.config.build.js"
+  },
   "devDependencies": {
     "webpack": "^5.76.1",
     "webpack-cli": "^5.0.1",
