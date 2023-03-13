@@ -1,0 +1,15 @@
+{
+  "name": "floema-clone",
+  "version": "1.0.0",
+  "description": "Floema Clone project built on Awwwards Academy course by Luis Henrique Bizarro",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leon-carvalho/floema-clone.git"
+  },
+  "author": "leon-carvalho",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leon-carvalho/floema-clone/issues"
+  },
+  "homepage": "https://github.com/leon-carvalho/floema-clone#readme"
+}
