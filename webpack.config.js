@@ -3,6 +3,8 @@ const webpack = require('webpack')
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'dev'
 
@@ -74,6 +76,7 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg|avf|woff2?|fnt|webp)$/,
         loader: 'file-loader',
+        type: "asset",
         options: {
           name (file) {
             return '[name].[hash].[ext]'
@@ -81,5 +84,35 @@ module.exports = {
         }
       }
     ]
+  },
+    optimization: {
+    minimizer: [
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              jpeg: {
+                lossless: true,
+                quality: 65, 
+              },
+              webp: {
+                lossless: true,
+                quality: 65, 
+              },
+              avif: {
+                lossless: true,
+                quality: 65, 
+              },
+              png: {
+                lossless: true,
+                quality: 65, 
+                alphaQuality: 65, 
+              },
+            },
+          },
+        },
+      }),
+    ],
   },
 }
