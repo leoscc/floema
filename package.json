@@ -16,7 +16,7 @@
     "start": "npm run dev",
     "dev": "webpack-dev-server --progress --config webpack.config.development.js",
     "build": "webpack --progress --config webpack.config.build.js",
-    "lint": "npx eslint --ext .js app/",
+    "lint": "npx eslint --ext .js .",
     "lint:fix": "npm run lint -- --fix"
   },
   "devDependencies": {
