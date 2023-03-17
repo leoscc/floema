@@ -1,11 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'dev'
 
@@ -18,22 +17,22 @@ console.log(dirApp, dirStyles)
 module.exports = {
   entry: [
     path.join(dirApp, 'index.js'),
-    path.join(dirStyles, 'index.scss'),
+    path.join(dirStyles, 'index.scss')
   ],
 
   resolve: {
     modules: [
-      dirApp,       
+      dirApp,
       dirStyles,
       dirNode
-    ],
+    ]
   },
 
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        { from: "./shared", to: "" },
-      ],
+        { from: './shared', to: '' }
+      ]
     }),
 
     new MiniCssExtractPlugin({
@@ -48,7 +47,7 @@ module.exports = {
         test: /\.js$/,
         use: {
           loader: 'babel-loader'
-        },
+        }
       },
 
       // styles
@@ -65,19 +64,19 @@ module.exports = {
             loader: 'css-loader'
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader'
           },
           {
             loader: 'sass-loader'
           }
-        ],
+        ]
       },
 
       // images and fonts
       {
         test: /\.(jpe?g|png|gif|svg|avf|woff2?|fnt|webp)$/,
         loader: 'file-loader',
-        type: "asset",
+        type: 'asset',
         options: {
           name (file) {
             return '[name].[hash].[ext]'
@@ -85,7 +84,7 @@ module.exports = {
         }
       },
 
-       // webgl - shaders
+      // webgl - shaders
       {
         test: /\.(glsl|frag|vert)$/,
         loader: 'raw-loader',
@@ -98,7 +97,7 @@ module.exports = {
       }
     ]
   },
-    optimization: {
+  optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin(),
@@ -109,25 +108,25 @@ module.exports = {
             encodeOptions: {
               jpeg: {
                 lossless: true,
-                quality: 65, 
+                quality: 65
               },
               webp: {
                 lossless: true,
-                quality: 65, 
+                quality: 65
               },
               avif: {
                 lossless: true,
-                quality: 65, 
+                quality: 65
               },
               png: {
                 lossless: true,
-                quality: 65, 
-                alphaQuality: 65, 
-              },
-            },
-          },
-        },
-      }),
-    ],
-  },
+                quality: 65,
+                alphaQuality: 65
+              }
+            }
+          }
+        }
+      })
+    ]
+  }
 }

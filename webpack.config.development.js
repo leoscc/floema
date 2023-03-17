@@ -10,7 +10,7 @@ module.exports = merge(config, {
 
   devServer: {
     devMiddleware: {
-      writeToDisk: true,
+      writeToDisk: true
     }
   },
 

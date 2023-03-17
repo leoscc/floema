@@ -9,10 +9,10 @@ module.exports = merge(config, {
   mode: 'production',
 
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
 
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin()
   ]
 })
