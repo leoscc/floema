@@ -13,10 +13,10 @@
   },
   "homepage": "https://github.com/leon-carvalho/floema-clone#readme",
   "scripts": {
-    "start": "npm run dev",
+    "start": "concurrently --kill-others \"npm run  backend:development\" \"npm run frontend:development\"",
     "backend:build": "node app.js",
     "backend:development": "nodemon app.js",
-    "frontend:dev": "webpack-dev-server --progress --config webpack.config.development.js",
+    "frontend:development": "webpack-dev-server --progress --config webpack.config.development.js",
     "frontend:build": "webpack --progress --config webpack.config.build.js",
     "lint": "npx eslint --ext .js .",
     "lint:fix": "npm run lint -- --fix"
@@ -24,6 +24,7 @@
   "devDependencies": {
     "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^7.6.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "eslint": "^8.36.0",
