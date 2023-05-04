@@ -11,3 +11,7 @@ block content
           each media in gallery.items
             figure.about__gallery__media
               img.about__gallery__media__image(alt=media.image.alt src=media.image.url)
+
+      each section in about.data.body
+        if section.slice_type === 'title'
+          h2.about__title=section.primary.textt
