@@ -35,24 +35,20 @@ app.use((req, res, next) => {
   next()
 })
 
-app.get('/', (req, res) => {
-  res.render('pages/home')
+app.get('/', async (req, res) => {
+  const api = await initApi(req)
+  const metadata = await api.getSingle('metadata')
+  res.render('pages/home', { metadata })
 })
 
 app.get('/about', async (req, res) => {
   const api = await initApi(req)
+  const metadata = await api.getSingle('metadata')
+  const about = await api.getSingle('about')
 
-  api.query(Prismic.predicate.any('document.type', ['about', 'meta'])).then(response => {
-    const { results } = response
-    const [about, meta] = results
-
-    const [gallery] = about.data.body
-
-    res.render('pages/about', {
-      about,
-      gallery,
-      meta
-    })
+  res.render('pages/about', {
+    about,
+    metadata
   })
 })
 
