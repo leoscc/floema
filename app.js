@@ -56,8 +56,17 @@ app.get('/collections', (req, res) => {
   res.render('pages/collections')
 })
 
-app.get('/detail/:uid', (req, res) => {
-  res.render('pages/detail')
+app.get('/detail/:uid', async (req, res) => {
+  const api = await initApi(req)
+  const metadata = await api.getSingle('metadata')
+
+  const product = await api.getByUID('product', req.params.uid, {
+    fetchLinks: 'collection.title'
+  })
+
+  console.log(product)
+
+  res.render('pages/detail', { metadata, product })
 })
 
 app.listen(PORT, () => {
