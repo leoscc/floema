@@ -9,9 +9,6 @@ const PrismicH = require('@prismicio/helpers')
 
 const PORT = 3000
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
-
 // Initialize the prismic.io api
 const initApi = (req) => {
   return Prismic.createClient(process.env.PRISMIC_ENDPOINT, {
@@ -23,6 +20,18 @@ const initApi = (req) => {
 
 // Link Resolver
 const HandleLinkResolver = (doc) => {
+  if (doc.type === 'product') {
+    return `/detail/${doc.slug}`
+  }
+
+  if (doc.type === 'collections') {
+    return '/collections'
+  }
+
+  if (doc.type === 'about') {
+    return '/about'
+  }
+
   // Default to homepage
   return '/'
 }
@@ -32,33 +41,95 @@ app.use((req, res, next) => {
   res.locals.Link = HandleLinkResolver
   res.locals.PrismicH = PrismicH
 
+  res.locals.Numbers = index => {
+    return index === 0 ? 'One' : index === 1 ? 'Two' : index === 2 ? 'Three' : index === 3 ? 'Four' : ''
+  }
+
   next()
 })
 
+app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, 'views'))
+app.locals.basedir = app.get('views')
+
+const handleRequest = async (api) => {
+  const [metadata, preloader, navigation, home, about, { results: collections }] =
+    await Promise.all([
+      api.getSingle('metadata'),
+      api.getSingle('preloader'),
+      api.getSingle('navigation'),
+      api.getSingle('home'),
+      api.getSingle('about'),
+      api.query(Prismic.predicate.at('document.type', 'collection'), {
+        fetchLinks: 'product.image'
+      })
+    ])
+
+  const assets = []
+
+  home.data.gallery.forEach((item) => {
+    assets.push(item.image.url)
+  })
+
+  about.data.gallery.forEach((item) => {
+    assets.push(item.image.url)
+  })
+
+  about.data.body.forEach((section) => {
+    if (section.slice_type === 'gallery') {
+      section.items.forEach((item) => {
+        assets.push(item.image.url)
+      })
+    }
+  })
+
+  collections.forEach((collection) => {
+    collection.data.list.forEach((item) => {
+      assets.push(item.product.data.image.url)
+    })
+  })
+
+  return {
+    assets,
+    metadata,
+    home,
+    collections,
+    about,
+    navigation,
+    preloader
+  }
+}
+
 app.get('/', async (req, res) => {
   const api = await initApi(req)
-  const metadata = await api.getSingle('metadata')
-  res.render('pages/home', { metadata })
+  const defaults = await handleRequest(api)
+
+  res.render('pages/home', {
+    ...defaults
+  })
 })
 
 app.get('/about', async (req, res) => {
   const api = await initApi(req)
-  const metadata = await api.getSingle('metadata')
-  const about = await api.getSingle('about')
+  const defaults = await handleRequest(api)
 
   res.render('pages/about', {
-    about,
-    metadata
+    ...defaults
   })
 })
 
-app.get('/collections', (req, res) => {
-  res.render('pages/collections')
+app.get('/collections', async (req, res) => {
+  const api = await initApi(req)
+  const defaults = await handleRequest(api)
+
+  res.render('pages/collections', {
+    ...defaults
+  })
 })
 
 app.get('/detail/:uid', async (req, res) => {
   const api = await initApi(req)
-  const metadata = await api.getSingle('metadata')
+  const defaults = await handleRequest(api)
 
   const product = await api.getByUID('product', req.params.uid, {
     fetchLinks: 'collection.title'
@@ -66,7 +137,11 @@ app.get('/detail/:uid', async (req, res) => {
 
   console.log(product)
 
-  res.render('pages/detail', { metadata, product })
+  // res.render('pages/detail', { metadata, product })
+  res.render('pages/detail', {
+    ...defaults,
+    product
+  })
 })
 
 app.listen(PORT, () => {
