@@ -84,8 +84,8 @@ const handleRequest = async (api) => {
   })
 
   collections.forEach((collection) => {
-    collection.data.list.forEach((item) => {
-      assets.push(item.product.data.image.url)
+    collection.data.products.forEach((item) => {
+      assets.push(item.products_product.data.image.url)
     })
   })
 
@@ -134,8 +134,6 @@ app.get('/detail/:uid', async (req, res) => {
   const product = await api.getByUID('product', req.params.uid, {
     fetchLinks: 'collection.title'
   })
-
-  console.log(product)
 
   // res.render('pages/detail', { metadata, product })
   res.render('pages/detail', {
