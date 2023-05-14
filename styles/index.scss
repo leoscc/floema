@@ -1,9 +1,9 @@
 @import './base/reset';
 // ------------ utils ------------
-@import './utils/vendors';
-@import './utils/mixins';
-@import './utils/functions';
 @import './utils/variables';
+@import './utils/functions';
+@import './utils/mixins';
+@import './utils/vendors';
 
 // ------------ pages ------------
 @import './pages/about/about';
