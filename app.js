@@ -1,13 +1,25 @@
 require('dotenv').config()
 
 const express = require('express')
+const fetch = require('node-fetch')
+const logger = require('morgan')
 const path = require('path')
+const errorHandler = require('errorhandler')
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+
 const app = express()
 
 const Prismic = require('@prismicio/client')
 const PrismicH = require('@prismicio/helpers')
 
 const PORT = 3000
+
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(errorHandler())
+app.use(methodOverride())
 
 // Initialize the prismic.io api
 const initApi = (req) => {
