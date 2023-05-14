@@ -5,6 +5,9 @@
 @import './utils/mixins';
 @import './utils/vendors';
 
+// ------------ components ------------
+@import './components/preloader';
+
 // ------------ pages ------------
 @import './pages/about/about';
 @import './pages/about/content';
