@@ -1,6 +1,7 @@
 @import './base/reset';
 // ------------ utils ------------
-@import './utils/vendors.scss';
+@import './utils/vendors';
+@import './utils/mixins';
 
 // ------------ pages ------------
 @import './pages/about/about';
