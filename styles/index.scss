@@ -1,5 +1,8 @@
 @import './base/reset';
+// ------------ utils ------------
+@import './utils/vendors.scss';
 
+// ------------ pages ------------
 @import './pages/about/about';
 @import './pages/about/content';
 @import './pages/about/gallery';
