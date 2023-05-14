@@ -8,6 +8,9 @@
 // ------------ components ------------
 @import './components/preloader';
 
+// ------------ layoit ------------
+@import './layout/navigation';
+
 // ------------ pages ------------
 @import './pages/about/about';
 @import './pages/about/content';
