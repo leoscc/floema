@@ -1,9 +1,19 @@
 @import './base/reset';
+
 // ------------ utils ------------
 @import './utils/variables';
 @import './utils/functions';
 @import './utils/mixins';
 @import './utils/vendors';
+@import './utils/responsive';
+
+// ------------ shared ------------
+@import './shared/titles';
+@import './shared/descriptions';
+
+// ------------ base ------------
+@import './base/font';
+@import './base/base';
 
 // ------------ components ------------
 @import './components/preloader';
