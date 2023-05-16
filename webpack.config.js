@@ -9,10 +9,10 @@ const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'dev'
 
 const dirApp = path.join(__dirname, 'app')
+const dirAssets = path.join(__dirname, 'assets')
+const dirShared = path.join(__dirname, 'shared')
 const dirStyles = path.join(__dirname, 'styles')
 const dirNode = 'node_modules'
-
-console.log(dirApp, dirStyles)
 
 module.exports = {
   entry: [
@@ -23,12 +23,18 @@ module.exports = {
   resolve: {
     modules: [
       dirApp,
+      dirAssets,
+      dirShared,
       dirStyles,
       dirNode
     ]
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      IS_DEVELOPMENT
+    }),
+
     new CopyWebpackPlugin({
       patterns: [
         { from: './shared', to: '' }
@@ -74,13 +80,10 @@ module.exports = {
 
       // images and fonts
       {
-        test: /\.(jpe?g|png|gif|svg|avf|woff2?|fnt|webp)$/,
-        loader: 'file-loader',
-        type: 'asset',
-        options: {
-          name (file) {
-            return '[name].[hash].[ext]'
-          }
+        test: /\.(png|jpg|gif|jpe?g|svg|woff2?|fnt|webp|mp4)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name].[hash].[ext]'
         }
       },
 
