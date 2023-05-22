@@ -21,7 +21,8 @@ block content
               svg.detail__information__highlight__icon
                 use(xlink:href=highlight.highlights_icon)
 
-              span.detail__information__highlight__text=highlight.highlights_text
+              span.detail__information__highlight__text!=highlight.highlights_text.replace(/\n/, '<br>')
+
 
         .detail__information__list
           each item in product.data.informations
@@ -30,3 +31,4 @@ block content
               span.detail__information__item__description=item.informations_description
 
         a.detail__information__link(href=product.data.link_url.url target="_blank")=product.data.link_text
+
